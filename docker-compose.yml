@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  secondary-cron-uk-v1:
+    logging:
+      driver: journald
+    image: 824775819187.dkr.ecr.eu-west-2.amazonaws.com/secondary-cron-uk-v1:latest
+    container_name: secondary-cron-uk-v1
+    restart: unless-stopped
+    environment:
+      - CAM_URL=${CAM_URL}
+      - CAM_DB=${CAM_DB}
+      - CAM_USERNAME=${CAM_USERNAME}
+      - CAM_PASSWORD=${CAM_PASSWORD}
+      - SC_UK_V1_UPDATE_WAIT_SEC=${SC_UK_V1_UPDATE_WAIT_SEC}
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
