@@ -9,7 +9,7 @@ jobs:
       - name: Change to workspace
         run: |
           cd ${{ github.workspace }}
-      - name: List files in the repository
+      - name: Run the publish.sh
         run: |
-          ls
+          ./publish.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
