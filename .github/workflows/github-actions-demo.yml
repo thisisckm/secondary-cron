@@ -4,6 +4,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: self-hosted
     steps:
+      - run: echo "Image Publish"
       - name: Checkout Repository Code
         uses: actions/checkout@v3
       - name: Change to workspace
