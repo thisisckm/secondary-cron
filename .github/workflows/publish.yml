@@ -1,0 +1,32 @@
+name: Publish Docker Image
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  publish:
+    runs-on: self-hosted
+    steps:
+      - run: echo "Image Publish"
+      - name: Checkout Repository Code
+        uses: actions/checkout@master
+      - name: Change to workspace
+        run: |
+          cd ${{ github.workspace }}
+      - name: Run the publish.sh
+        run: |
+          ./publish.sh
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - run: echo "Deploy"
+      - name: Checkout Repository Code
+        uses: actions/checkout@master
+      - name: Change to workspace
+        run: |
+          cd ${{ github.workspace }}
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook ansible.yml
+      - run: echo "🍏 This job's status is ${{ job.status }}."
