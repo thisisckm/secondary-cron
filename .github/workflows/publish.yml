@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - "**.md"
 jobs:
   publish:
     runs-on: self-hosted
@@ -28,5 +30,5 @@ jobs:
           cd ${{ github.workspace }}
       - name: Run Ansible Playbook
         run: |
-          ansible-playbook ansible.yml
+          ansible-playbook -i 3.10.196.41, ansible.yml
       - run: echo "🍏 This job's status is ${{ job.status }}."
