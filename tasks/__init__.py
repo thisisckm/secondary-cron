@@ -1,4 +1,3 @@
-from re import S
 import requests
 import boto3
 import pandas as pd
