@@ -21,6 +21,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
   deploy:
     runs-on: self-hosted
+    needs: publish
     steps:
       - run: echo "Deploy"
       - name: Checkout Repository Code

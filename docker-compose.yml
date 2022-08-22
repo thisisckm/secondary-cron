@@ -8,11 +8,11 @@ services:
     container_name: secondary-cron-uk-v1
     restart: unless-stopped
     environment:
-      - CAM_URL=${CAM_URL}
-      - CAM_DB=${CAM_DB}
-      - CAM_USERNAME=${CAM_USERNAME}
-      - CAM_PASSWORD=${CAM_PASSWORD}
-      - SC_UK_V1_UPDATE_WAIT_SEC=${SC_UK_V1_UPDATE_WAIT_SEC}
+      - CAM_URL=https://forapi.chameleonerp.co.uk
+      - CAM_DB=liveerp
+      - CAM_USERNAME=admin
+      - CAM_PASSWORD=b1ackcat.73
+      - SC_UK_V1_UPDATE_WAIT_SEC=60
     volumes:
       - ./logs:/app/logs
       - ./data:/app/data
