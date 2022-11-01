@@ -55,7 +55,7 @@ def quick_eso_process():
         logger.info("Started")
         model = 'sale.order.external' 
         ids = odoo.search(model, [['state', '=', 'ready']])
-        if not len(ids) > 15:
+        if not len(ids) > 8:
             logger.info('Nothing to do')
             return
             
