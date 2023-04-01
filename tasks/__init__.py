@@ -113,7 +113,7 @@ class CheckForapi:
                 json={"text": message})
 
     def check_forapi(self):
-        response = requests.get(odoo.url)
+        response = requests.get("https://backend.chameleonerp.net")
         if response.status_code == 200:
             self.last_know_working = datetime.now()
         else:
