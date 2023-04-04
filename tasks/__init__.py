@@ -123,7 +123,7 @@ class CheckForapi:
                 
                 self.channel_post(message)
 
-                instance_ids = ["i-035b5f0b95fc03096"]
+                instance_ids = ["i-0096883bae6e6f0af"]
                 if self.is_ec3_running(instance_ids):
                     result = self.reboot_ec2(instance_ids)
                 else:
