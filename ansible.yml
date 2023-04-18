@@ -35,6 +35,6 @@
         password: "{{ ecr_credentials[1] }}"
         reauthorize: yes
     - name: Lunch the container
-      shell: "docker-compose stop && docker-compose pull && docker-compose up -d"
+      shell: "docker compose stop && docker compose pull && docker compose up -d"
       args:
         chdir: /home/ubuntu/secondary-cron-uk-v1
