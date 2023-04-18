@@ -1,6 +1,16 @@
 version: '3.4'
 
 services:
+  uploadserver:
+    logging:
+      driver: journald
+    image: 824775819187.dkr.ecr.eu-west-2.amazonaws.com/uploadserver
+    container_name: uploadserver
+    restart: unless-stopped
+    volumes:
+      - /home/ubuntu/secondary-cron-uk-v1/data:/app/data
+    ports:
+      - 4001:8000
   secondary-cron-uk-v1:
     logging:
       driver: journald
@@ -8,11 +18,12 @@ services:
     container_name: secondary-cron-uk-v1
     restart: unless-stopped
     environment:
-      - CAM_URL=https://forapi.chameleonerp.co.uk
-      - CAM_DB=liveerp
-      - CAM_USERNAME=admin
-      - CAM_PASSWORD=b1ackcat.73
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AMAZON_UPDATE_WAIT_SEC=60
       - SC_UK_V1_UPDATE_WAIT_SEC=60
     volumes:
       - ./logs:/app/logs
       - ./data:/app/data
+    depends_on:
+      - uploadserver
