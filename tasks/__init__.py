@@ -1,7 +1,7 @@
-import requests
 import pandas as pd
 
 from os import listdir, remove
+from datetime import timezone
 from systems import odoo, scheduler, logger
 
 from apscheduler.triggers.cron import CronTrigger
