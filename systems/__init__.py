@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import boto3
+import json
 
 from botocore.exceptions import ClientError
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -32,7 +33,7 @@ def get_secret():
     
         # Decrypts secret using the associated KMS key.
         secret = get_secret_value_response['SecretString']
-        return secret
+        return json.loads(secret)
     
     except ClientError as e:
         return {}
