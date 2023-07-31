@@ -1,4 +1,7 @@
 import pandas as pd
+import requests
+import json
+import os
 
 from os import listdir, remove
 from datetime import timezone
@@ -6,14 +9,24 @@ from systems import odoo, scheduler, logger
 
 from apscheduler.triggers.cron import CronTrigger
 
+SALES_CHANNEL_URL = os.environ.get("SALES_CHANNEL_URL")
+class TeamsWebhookException(Exception):
+    pass
 
-def amazonupdate():
+def post_message(message: str) -> None:
+    payload = {"text": message}
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(SALES_CHANNEL_URL, headers=headers, data=json.dumps(payload))
+    
+    if response.status_code != 200:
+        raise TeamsWebhookException(response.reason)
+
+def amazonupdate() -> None:
     
     logger.info("Amazon Upload process - Started") 
     model = 'sale.order.external'
     for data_file in listdir('data'):
         data = pd.read_csv("data/%s" % data_file, sep='\t')
-        flag_to_delete = True
         for i, row in data.iterrows():            
             ids = odoo.search(model, [['external_order_reference', '=', row['order-id']], ['state', '=', 'exception']])            
             if ids:
@@ -35,19 +48,20 @@ def amazonupdate():
             else:                
                 ids = odoo.search(model, [['external_order_reference', '=', row['order-id']]])
                 if not ids:
-                    logger.info(f"Order Ref {row['order-id']} of customer {row['buyer-name'].title()} not found")
-                    flag_to_delete = False
+                    message = f"Order Ref {row['order-id']} of customer {row['buyer-name'].title()} not found"
+                    logger.info(message)
+                    post_message(message)
                 else:
                     logger.info(f"Order Ref {row['order-id']} of customer {row['buyer-name'].title()} already processed")
-        if flag_to_delete:            
-            remove(f"data/{data_file}")
+        
+        remove(f"data/{data_file}")
 
     logger.info("Amazon Upload process - End")
 
 scheduler.add_job(amazonupdate, CronTrigger.from_crontab('*/2 * * * *', timezone=timezone.utc))
 
 
-def quick_eso_process():    
+def quick_eso_process() -> None:    
 
     try:
 
