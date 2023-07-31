@@ -17,7 +17,8 @@
       copy: src={{ item.src }} dest={{ item.dest  }} owner=ubuntu group=ubuntu mode=0644
       with_items:
         - { src: './docker-compose.yml', dest: '/home/ubuntu/secondary-cron-uk-v1' }
-    
+        - { src: './.env', dest: '/home/ubuntu/secondary-cron-uk-v1' }
+
     - name: ecr docker get-authorization-token
       shell: "aws ecr get-authorization-token  --profile default --region eu-west-2"
       register: ecr_command

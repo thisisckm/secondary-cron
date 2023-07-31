@@ -8,7 +8,7 @@ services:
     container_name: uploadserver
     restart: unless-stopped
     volumes:
-      - /home/ubuntu/secondary-cron-uk-v1/data:/app/data
+      - ./data:/app/data
     ports:
       - 4001:8000
   secondary-cron-uk-v1:
@@ -22,6 +22,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AMAZON_UPDATE_WAIT_SEC=60
       - SC_UK_V1_UPDATE_WAIT_SEC=60
+      - SALES_CHANNEL_URL=${SALES_CHANNEL_URL}
     volumes:
       - ./logs:/app/logs
       - ./data:/app/data
