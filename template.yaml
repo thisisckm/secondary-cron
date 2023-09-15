@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ERP UK v1 Secondary Cron
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  QuickESOProcessFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: quick_eso_processor.lambda_handler
+      Runtime: python3.11
+      Timeout: 900
+      Architectures:
+        - x86_64
+      Events:
+        QuickESOProcessScheduleRule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "secretsmanager:GetSecretValue"
+              Resource: "*"
+
+  JobOrderMessenger:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: job_order_messenger.lambda_handler
+      Runtime: python3.11
+      Timeout: 300
+      Architectures:
+        - x86_64
+      Events:
+        JobOrderMessengerScheduleRule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "secretsmanager:GetSecretValue"
+              Resource: "*"
+
