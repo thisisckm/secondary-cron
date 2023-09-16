@@ -30,20 +30,20 @@ Resources:
               Action: "secretsmanager:GetSecretValue"
               Resource: "*"
 
-  JobOrderMessenger:
+  JobOrderMessengerToday:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
-      Handler: job_order_messenger.lambda_handler
+      Handler: job_order_messenger_today.lambda_handler
       Runtime: python3.11
       Timeout: 300
       Architectures:
         - x86_64
       Events:
-        JobOrderMessengerScheduleRule:
+        JobOrderMessengerTodayScheduleRule:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minute)
+            Schedule: cron(00 7 * * ? *)
 
       Policies:
         - Version: "2012-10-17"
@@ -52,3 +52,46 @@ Resources:
               Action: "secretsmanager:GetSecretValue"
               Resource: "*"
 
+  JobOrderMessenger48hrs:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: job_order_messenger_48hrs.lambda_handler
+      Runtime: python3.11
+      Timeout: 300
+      Architectures:
+        - x86_64
+      Events:
+        JobOrderMessenger48hrsScheduleRule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour)
+
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "secretsmanager:GetSecretValue"
+              Resource: "*"
+
+  JobOrderMessenger24hrs:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: job_order_messenger_24hrs.lambda_handler
+      Runtime: python3.11
+      Timeout: 300
+      Architectures:
+        - x86_64
+      Events:
+        JobOrderMessenger24hrsScheduleRule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour)
+
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "secretsmanager:GetSecretValue"
+              Resource: "*"

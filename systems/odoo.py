@@ -18,7 +18,7 @@ class Odoo:
 
     def execute(self, model: str, function_name: str, function_parameter: list):
         models_object = client.ServerProxy('{}/xmlrpc/object'.format(self.url))
-        return models_object.execute_kw(self.db, self.uid, self.password, model, function_name, [function_parameter])
+        return models_object.execute_kw(self.db, self.uid, self.password, model, function_name, function_parameter)
 
     def write(self, model: str, ids: list, data: dict):
         models_object = client.ServerProxy('{}/xmlrpc/object'.format(self.url))
