@@ -8,8 +8,8 @@ def lambda_handler(event, context):
 
     ready_order_count = len(ids)
     if ready_order_count >= 8:    
-        id = ids[0]
-        odoo.execute('sale.order.external', 'sale_order_create', [id])
+        ids = ids[:1]
+        odoo.execute(model, 'sale_order_create', [ids])
         message = f"{ready_order_count} orders are ready to process"
     
     return {
